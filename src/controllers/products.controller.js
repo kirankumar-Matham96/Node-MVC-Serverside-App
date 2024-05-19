@@ -18,7 +18,6 @@ export default class ProductController {
 
   // to submit the form data
   addNewProduct(req, res) {
-    console.log("request Body: ", req.body);
     const { name, desc, price, imageUrl } = req.body;
     controllerModel.addNewProduct(name, desc, price, imageUrl);
     return res.render("products", { productsList });
