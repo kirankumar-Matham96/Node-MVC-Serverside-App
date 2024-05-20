@@ -4,7 +4,7 @@ import ejsLayouts from "express-ejs-layouts";
 import ProductController from "./src/controllers/products.controller.js";
 import { validateRequest } from "./src/middlewares/validation.middleware.js";
 
-const PORT = 8000;
+const PORT = 8888;
 const folderPath = path.join("src", "views");
 const controller = new ProductController();
 
@@ -29,9 +29,15 @@ app.use(express.static(folderPath));
 app.get("/", controller.getProducts);
 
 //  routing to the add form
-app.get("/new-product", controller.getAddForm);
+app.get("/add-product", controller.getAddForm);
 app.post("/", validateRequest, controller.addNewProduct);
 
+// routing to get updated product details
+app.get("/get-update-product/:id", controller.getUpdateProductView);
+
+// to update the data of a product
+app.post("/update-product", validateRequest, controller.updateProduct);
+
 app.listen(PORT, () => {
-  console.log(`Server is running at ${PORT}`);
+  console.log(`Server is running at ${PORT}: http://localhost:${PORT}/`);
 });

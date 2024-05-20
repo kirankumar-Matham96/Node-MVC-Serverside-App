@@ -1,0 +1,34 @@
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Image</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% productsList.forEach((product) => { %>
+    <tr>
+      <th><%= product.id %></th>
+      <td><%= product.name %></td>
+      <td><%= product.description %></td>
+      <td scope="col"><%= product.price %></td>
+      <td>
+        <img
+          src="<%= product.imageUrl %>"
+          alt="Harry Potter"
+          class="table-image"
+        />
+      </td>
+      <td>
+        <a class="btn btn-warning" href="/get-update-product/<%= product.id %>"
+          >Update</a
+        >
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
