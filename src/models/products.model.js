@@ -1,91 +1,62 @@
-export default class ProductsModel {
+export default class ProductModel {
   constructor(_id, _name, _description, _price, _imageUrl) {
     this.id = _id;
     this.name = _name;
-    this.description = _description;
+    this.desc = _description;
     this.price = _price;
     this.imageUrl = _imageUrl;
   }
 
-  static getProductsData() {
+  static getAll() {
     return products;
   }
 
-  static addNewProduct(productName, desc, price, imageUrl) {
-    products.push(
-      new ProductsModel(products.length + 1, productName, desc, price, imageUrl)
+  static update(productObj) {
+    const index = products.findIndex((p) => p.id == productObj.id);
+    products[index] = productObj;
+  }
+
+  static delete(id) {
+    const index = products.findIndex((p) => p.id == id);
+    products.splice(index, 1);
+  }
+
+  static add(productObj) {
+    let newProduct = new ProductModel(
+      products.length + 1,
+      productObj.name,
+      productObj.desc,
+      productObj.price,
+      productObj.imageUrl
     );
+    products.push(newProduct);
   }
 
   static getById(id) {
-    return products.find((product) => product.id === id);
-  }
-
-  // TODO: Product data is not updating!
-  static updateProduct(id, productName, desc, price, imageUrl) {
-    // method 1
-    // products.map((product) => {
-    //   if (product.id === id) {
-    //     product.name = productName;
-    //     product.description = desc;
-    //     product.price = price;
-    //     product.imageUrl = imageUrl;
-    //   }
-    // });
-
-    // method-2
-    const foundProduct = products.find((product) => {
-      console.log(product);
-      if (product.id === id) {
-        return product;
-      }
-    });
-    // console.log(products[foundProduct]);
-    products[foundProduct] = { id, productName, desc, price, imageUrl };
+    return products.find((p) => p.id == id);
   }
 }
 
-let products = [];
-
-const pushInitialProducts = () => {
-  const initialProducts = [
-    {
-      id: "1",
-      name: "Product 1",
-      description: "Description for product 1",
-      price: 299.99,
-      imageUrl:
-        "https://m.media-amazon.com/images/I/81q77Q39nEL._AC_UF1000,1000_QL80_.jpg",
-    },
-    {
-      id: "2",
-      name: "Product 2",
-      description: "Description for product 2",
-      price: 299.99,
-      imageUrl:
-        "https://m.media-amazon.com/images/I/81NQA1BDlnL._AC_UF1000,1000_QL80_DpWeblab_.jpg",
-    },
-    {
-      id: "3",
-      name: "Product 3",
-      description: "Description for product 3",
-      price: 299.99,
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5dNE2-fl1qJz2RaygtkHO7T6JbHypkcM5s5GP2A31_w&s",
-    },
-  ];
-
-  products = initialProducts.map((product) => {
-    const newProduct = new ProductsModel(
-      product.id,
-      product.name,
-      product.description,
-      product.price,
-      product.imageUrl
-    );
-    console.log({ newProduct });
-    return newProduct;
-  });
-};
-
-pushInitialProducts();
+const products = [
+  new ProductModel(
+    1,
+    "Product 1",
+    "Description for product 1",
+    299.99,
+    "https://m.media-amazon.com/images/I/81q77Q39nEL._AC_UF1000,1000_QL80_.jpg"
+  ),
+  new ProductModel(
+    2,
+    "Product 2",
+    "Description for product 2",
+    299.99,
+    "https://m.media-amazon.com/images/I/81NQA1BDlnL._AC_UF1000,1000_QL80_DpWeblab_.jpg"
+  ),
+  new ProductModel(
+    3,
+    "Product 3",
+    "Description for product 3",
+    299.99,
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5dNE2-fl1qJz2RaygtkHO7T6JbHypkcM5s5GP2A31_w&s"
+  ),
+];

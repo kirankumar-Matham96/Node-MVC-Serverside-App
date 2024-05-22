@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 
-export async function validateRequest(req, res, next) {
+const validateRequest = async (req, res, next) => {
   /**
    * The below commented code was presented in the lecture. It is not working.
    * By following the document, if we store the functions and use them later, unexpected errors will occur.
@@ -45,3 +45,5 @@ export async function validateRequest(req, res, next) {
     console.log("error in catch: ", error);
   }
 }
+
+export default validateRequest;

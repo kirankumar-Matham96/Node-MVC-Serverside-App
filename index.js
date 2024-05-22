@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import ejsLayouts from "express-ejs-layouts";
 import ProductController from "./src/controllers/products.controller.js";
-import { validateRequest } from "./src/middlewares/validation.middleware.js";
+import validateRequest  from "./src/middlewares/validation.middleware.js";
 
 const PORT = 8888;
 const folderPath = path.join("src", "views");
@@ -33,10 +33,13 @@ app.get("/add-product", controller.getAddForm);
 app.post("/", validateRequest, controller.addNewProduct);
 
 // routing to get updated product details
-app.get("/get-update-product/:id", controller.getUpdateProductView);
+app.get("/update-product/:id", controller.getUpdateProductView);
 
 // to update the data of a product
 app.post("/update-product", validateRequest, controller.updateProduct);
+
+// to delete the post
+app.get("/delete-product/:id", controller.deleteProduct);
 
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}: http://localhost:${PORT}/`);

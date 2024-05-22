@@ -1,34 +1,34 @@
-import path from "path";
-import controllerModel from "../models/products.model.js";
-import ProductsModel from "../models/products.model.js";
-const productsList = controllerModel.getProductsData();
+import ProductModel from "../models/products.model.js";
 
-export default class ProductController {
-  getProducts(req, res) {
+class ProductsController {
+  getProducts(req, res, next) {
+    const products = ProductModel.getAll();
     // sending static page
     // return res.sendFile(path.join(path.resolve(), "src", "views", "products.html"));
 
     // to use template engine
-    return res.render("index", { productsList });
+    return res.render("index", { products });
   }
 
   // to send the form
-  getAddForm(req, res) {
-    return res.render("newProduct", { errorMessage: null });
+  getAddForm(req, res, next) {
+    return res.render("newProduct", {
+      errorMessage: null,
+    });
   }
 
   // to submit the form data
   addNewProduct(req, res) {
-    const { name, desc, price, imageUrl } = req.body;
-    controllerModel.addNewProduct(name, desc, price, imageUrl);
-    return res.render("index", { productsList });
+    ProductModel.add(req.body);
+    var products = ProductModel.getAll();
+    res.render("index", { products });
   }
 
   // to get the product to update
-  getUpdateProductView(req, res, next) {
+  getUpdateProductView(req, res) {
     // below line will get the url param (id) from the request url
     const { id } = req.params;
-    const productFound = ProductsModel.getById(id);
+    const productFound = ProductModel.getById(id);
 
     if (productFound) {
       return res.render("update-product", {
@@ -42,10 +42,24 @@ export default class ProductController {
 
   // to update the product
   updateProduct(req, res) {
-    const { id, name, desc, price, imageUrl } = req.body;
-    controllerModel.updateProduct(id, name, desc, price, imageUrl);
-    const newProducts = controllerModel.getProductsData();
-    // console.log({newProducts});
-    return res.render("index", { productsList: newProducts });
+    ProductModel.update(req.body);
+    var products = ProductModel.getAll();
+    res.render("index", { products });
+  }
+
+  // to delete product
+  deleteProduct(req, res) {
+    const { id } = req.params;
+
+    const productFound = ProductModel.getById(id);
+
+    if (!productFound) {
+      return res.status(404).send("Product not found");
+    }
+    ProductModel.delete(id);
+    const products = ProductModel.getAll();
+    return res.status(200).render("index", { products });
   }
 }
+
+export default ProductsController;

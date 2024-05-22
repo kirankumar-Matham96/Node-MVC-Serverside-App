@@ -1,3 +1,4 @@
+<h1 class="mt-5 mb-4">Products</h1>
 <table class="table table-dark">
   <thead>
     <tr>
@@ -10,23 +11,25 @@
     </tr>
   </thead>
   <tbody>
-    <% productsList.forEach((product) => { %>
+    <% products.forEach(product=> { %>
     <tr>
-      <th><%= product.id %></th>
-      <td><%= product.name %></td>
-      <td><%= product.description %></td>
-      <td scope="col"><%= product.price %></td>
+      <th scope="row">
+        <%= product.id %>
+      </th>
       <td>
-        <img
-          src="<%= product.imageUrl %>"
-          alt="Harry Potter"
-          class="table-image"
-        />
+        <%= product.name %>
       </td>
       <td>
-        <a class="btn btn-warning" href="/get-update-product/<%= product.id %>"
-          >Update</a
-        >
+        <%= product.desc %>
+      </td>
+      <td><%= product.price %>
+      </td>
+      <td>
+        <img src="<%= product.imageUrl %>" alt="<%= product.name %>" style="max-width: 100px;">
+      </td>
+      <td>
+        <a href="/update-product/<%= product.id %>" class="btn btn-warning">Update</a>
+        <a href="/delete-product/<%= product.id %>" class="btn btn-danger">Delete</a>
       </td>
     </tr>
     <% }) %>
