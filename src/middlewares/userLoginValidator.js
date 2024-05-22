@@ -2,7 +2,11 @@ import { body, validationResult } from "express-validator";
 
 const userLoginValidator = async (req, res, next) => {
   try {
-    await body("email").isEmail().withMessage("Valid email required").run(req);
+    await body("email")
+      .notEmpty()
+      .isEmail()
+      .withMessage("Valid email required")
+      .run(req);
     await body("password")
       .notEmpty()
       .withMessage("Valid password required")

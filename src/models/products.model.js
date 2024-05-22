@@ -44,7 +44,7 @@ export default class ProductModel {
   }
 }
 
-const products = [
+export const products = [
   new ProductModel(
     1,
     "Product 1",

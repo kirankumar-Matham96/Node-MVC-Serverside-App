@@ -63,11 +63,11 @@ app.post("/delete-product/:id", controller.deleteProduct);
 
 // to register
 app.get("/register", userController.getRegister);
-app.post("/register", userValidationRegister, userController.add);
+app.post("/register", userValidationRegister, userController.postRegister);
 
 // to login
 app.get("/login", userController.getLogin);
-app.post("/login", userLoginValidator, userController.login);
+app.post("/login", userLoginValidator, userController.postLogin);
 
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}: http://localhost:${PORT}/`);
