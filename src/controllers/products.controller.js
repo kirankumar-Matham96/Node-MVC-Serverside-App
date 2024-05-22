@@ -19,7 +19,11 @@ class ProductsController {
 
   // to submit the form data
   addNewProduct(req, res) {
-    ProductModel.add(req.body);
+    const { name, desc, price } = req.body;
+    const imageUrl = "images/" + req.file.filename;
+    // ProductModel.add(req.body);
+    ProductModel.add(name, desc, price, imageUrl);
+
     var products = ProductModel.getAll();
     res.render("index", { products });
   }

@@ -3,7 +3,7 @@ import path from "path";
 import ejsLayouts from "express-ejs-layouts";
 import ProductController from "./src/controllers/products.controller.js";
 import validateRequest from "./src/middlewares/validation.middleware.js";
-
+import { uploadFile } from "./src/middlewares/file-upload.middleware.js";
 const PORT = 8888;
 
 // to load static pages
@@ -39,7 +39,12 @@ app.get("/", controller.getProducts);
 
 //  routing to the add form
 app.get("/add-product", controller.getAddForm);
-app.post("/", validateRequest, controller.addNewProduct);
+app.post(
+  "/",
+  uploadFile.single("imageUrl"),
+  validateRequest,
+  controller.addNewProduct
+);
 
 // routing to get updated product details
 app.get("/update-product/:id", controller.getUpdateProductView);

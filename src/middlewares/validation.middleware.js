@@ -29,13 +29,24 @@ const validateRequest = async (req, res, next) => {
       .isFloat({ gt: 0 })
       .withMessage("Price should be positive*")
       .run(req);
-    await body("imageUrl").isURL().withMessage("invalid URL*").run(req);
+    // await body("imageUrl").isURL().withMessage("invalid URL*").run(req);
+    await body("imageUrl")
+      .custom((value, { req }) => {
+        if (!req.file) {
+          // return Promise.reject("Image is Required*");
+          throw new Error("Image is Required*");
+        }
+        return true;
+      })
+      .run(req);
 
     // 2. check if there are any errors
     let validationErrors = validationResult(req);
 
     // 3. based on the results, call the function
     if (!validationErrors.isEmpty()) {
+      console.log("\n\n", req.body, "\n\n");
+      console.log("\n\nvalidation errors: \n\n", validationErrors.array());
       return res.status(401).render("newProduct", {
         errorMessage: validationErrors.array()[0].msg,
       });
@@ -44,6 +55,6 @@ const validateRequest = async (req, res, next) => {
   } catch (error) {
     console.log("error in catch: ", error);
   }
-}
+};
 
 export default validateRequest;
