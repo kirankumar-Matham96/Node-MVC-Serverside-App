@@ -1,0 +1,16 @@
+<h1 class="mt-5 mb-4 header">Login</h1>
+<%if(errorMessage){ %>
+<div class="alert alert-danger" role="alert"><%= errorMessage %></div>
+<%}%>
+
+<form action="/login" method="post">
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" name="email" />
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" name="password" />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -4,6 +4,11 @@ import ejsLayouts from "express-ejs-layouts";
 import ProductController from "./src/controllers/products.controller.js";
 import validateRequest from "./src/middlewares/validation.middleware.js";
 import { uploadFile } from "./src/middlewares/file-upload.middleware.js";
+import UserController from "./src/controllers/register.controller.js";
+import userValidationRegister from "./src/middlewares/userRegisterValidation.middleware.js";
+import userLoginValidator from "./src/middlewares/userLoginValidator.js";
+
+// port number
 const PORT = 8888;
 
 // to load static pages
@@ -13,12 +18,13 @@ const PORT = 8888;
 const publicFolderPath = path.resolve("public");
 
 const controller = new ProductController();
+const userController = new UserController();
 
 //  initializing express
 const app = express();
 
 // parsing form data
-// app.use(express.json());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // set up view engine settings
@@ -54,6 +60,14 @@ app.post("/update-product", validateRequest, controller.updateProduct);
 
 // to delete the post
 app.post("/delete-product/:id", controller.deleteProduct);
+
+// to register
+app.get("/register", userController.getRegister);
+app.post("/register", userValidationRegister, userController.add);
+
+// to login
+app.get("/login", userController.getLogin);
+app.post("/login", userLoginValidator, userController.login);
 
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}: http://localhost:${PORT}/`);
