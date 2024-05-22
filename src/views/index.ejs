@@ -13,23 +13,33 @@
   <tbody>
     <% products.forEach(product=> { %>
     <tr>
-      <th scope="row">
-        <%= product.id %>
-      </th>
+      <th scope="row"><%= product.id %></th>
+      <td><%= product.name %></td>
+      <td><%= product.desc %></td>
+      <td><%= product.price %></td>
       <td>
-        <%= product.name %>
+        <img
+          src="<%= product.imageUrl %>"
+          alt="<%= product.name %>"
+          style="max-width: 100px"
+        />
       </td>
       <td>
-        <%= product.desc %>
-      </td>
-      <td><%= product.price %>
-      </td>
-      <td>
-        <img src="<%= product.imageUrl %>" alt="<%= product.name %>" style="max-width: 100px;">
-      </td>
-      <td>
-        <a href="/update-product/<%= product.id %>" class="btn btn-warning">Update</a>
-        <a href="/delete-product/<%= product.id %>" class="btn btn-danger">Delete</a>
+        <a href="/update-product/<%= product.id %>" class="btn btn-warning"
+          >Update</a
+        >
+        <button
+          class="btn btn-danger"
+          onclick="confirmDelete('<%= product.id %>')"
+        >
+          Delete
+        </button>
+        <!-- <a
+          href="/delete-product/<%= product.id %>"
+          class="btn btn-danger"
+          onclick="confirmDelete()"
+          >Delete</a
+        > -->
       </td>
     </tr>
     <% }) %>
