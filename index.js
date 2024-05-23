@@ -9,6 +9,8 @@ import userValidationRegister from "./src/middlewares/userRegisterValidation.mid
 import userLoginValidator from "./src/middlewares/userLoginValidator.js";
 import session from "express-session";
 import { auth } from "./src/middlewares/auth.middleware.js";
+import cookieParser from "cookie-parser";
+import { setLastVisit } from "./src/middlewares/lastVisit.middleware.js";
 
 // port number
 const PORT = 8888;
@@ -36,9 +38,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(ejsLayouts);
 // setting up folder path for the static content
 app.use(express.static(publicFolderPath));
-
 // setting up folder path for the static content
 // app.use(express.static(folderPath));
+
+// using cookie parser
+app.use(cookieParser());
+// to set the cookies for every route (application level)
+app.use(setLastVisit);
 
 // setting session
 app.set("truest proxy", 1);
@@ -51,7 +57,7 @@ app.use(
   })
 );
 
-// routing to the products function
+// routing to the products page
 app.get("/", auth, controller.getProducts);
 
 //  routing to the add form

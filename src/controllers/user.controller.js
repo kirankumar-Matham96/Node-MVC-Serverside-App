@@ -47,6 +47,9 @@ class UserController {
         res.redirect("/login");
       }
     });
+
+    // clearing the cookies
+    res.clearCookie("lastVisit");
   }
 }
 
