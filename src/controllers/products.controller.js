@@ -7,13 +7,14 @@ class ProductsController {
     // return res.sendFile(path.join(path.resolve(), "src", "views", "products.html"));
 
     // to use template engine
-    return res.render("index", { products });
+    return res.render("index", { products, userEmail: req.session.userEmail });
   }
 
   // to send the form
   getAddForm(req, res, next) {
     return res.render("newProduct", {
       errorMessage: null,
+      userEmail: req.session.userEmail,
     });
   }
 
@@ -25,7 +26,7 @@ class ProductsController {
     ProductModel.add(name, desc, price, imageUrl);
 
     var products = ProductModel.getAll();
-    res.render("index", { products });
+    res.render("index", { products, userEmail: req.session.userEmail });
   }
 
   // to get the product to update
@@ -38,6 +39,7 @@ class ProductsController {
       return res.render("update-product", {
         product: productFound,
         errorMessage: null,
+        userEmail: req.session.userEmail,
       });
     }
 
@@ -48,7 +50,7 @@ class ProductsController {
   updateProduct(req, res) {
     ProductModel.update(req.body);
     var products = ProductModel.getAll();
-    res.render("index", { products });
+    res.render("index", { products, userEmail: req.session.userEmail });
   }
 
   // to delete product
@@ -62,7 +64,9 @@ class ProductsController {
     }
     ProductModel.delete(id);
     const products = ProductModel.getAll();
-    return res.status(200).render("index", { products });
+    return res
+      .status(200)
+      .render("index", { products, userEmail: req.session.userEmail });
   }
 }
 

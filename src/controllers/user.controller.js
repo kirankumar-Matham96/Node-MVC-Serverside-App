@@ -25,13 +25,28 @@ class UserController {
     }
 
     if (userFound && userFound.password === password) {
+      req.session.userEmail = email;
       const products = ProductModel.getAll();
-      return res.render("index", { products });
+      return res.render("index", {
+        products,
+        userEmail: req.session.userEmail,
+      });
     } else {
       return res.render("login", {
         errorMessage: "Email or Password is invalid!",
       });
     }
+  }
+
+  logout(req, res) {
+    // clearing the session
+    req.session.destroy((err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.redirect("/login");
+      }
+    });
   }
 }
 
